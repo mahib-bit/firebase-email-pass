@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../Firebase/firebase.innit';
 
@@ -12,7 +12,11 @@ const Login = () => {
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
-                console.log(result.user);
+
+                sendEmailVerification(result.user);
+
+                alert('Verification email sent!');
+
             })
             .catch(error => {
                 console.log(error.code);
