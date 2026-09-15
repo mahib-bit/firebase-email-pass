@@ -1,24 +1,37 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router';
-import Root from '../pages/Root/Root';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import Home from '../pages/Home/Home';
 import Login from '../pages/Login/Login';
+import Dashboard from '../pages/Dashboard/Dashboard';
+import Root from '../Root/Root';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 export const router = createBrowserRouter([
+
     {
         path: '/',
         Component: Root,
-        errorElement: <ErrorPage></ErrorPage>,
+        errorElement: <ErrorPage />,
         children: [
             {
-                index : true,
+                index: true,
                 Component: Home,
             },
             {
                 path: 'Login',
-                Component : Login,
+                Component: Login,
             },
+            {
+                path: 'dashboard',
+                element: (
+                    <PrivateRoute>
+                        <Dashboard />
+                    </PrivateRoute>
+                ),
+            }
+
         ]
     }
+
 ]);

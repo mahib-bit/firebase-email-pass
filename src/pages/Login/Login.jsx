@@ -1,12 +1,11 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { auth } from '../../Firebase/firebase.innit';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState(null);
 
     const handleRegister = () => {
 
@@ -37,17 +36,11 @@ const Login = () => {
 
     const handleLogin = () => {
 
-        if (user) {
-            alert('You are already logged in!');
-            return;
-        }
-
         signInWithEmailAndPassword(auth, email, password)
             .then(result => {
                 console.log(result.user);
             })
             .catch(error => {
-
                 console.log(error.code);
 
                 if (error.code === 'auth/invalid-credential') {
@@ -72,14 +65,6 @@ const Login = () => {
                 console.log(error)
             })
     }
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, user => {
-            console.log(user);
-        });
-        return () => unsubscribe();
-
-    }, []);
 
     return (
         <div>
