@@ -5,6 +5,7 @@ const NAV_ITEMS = [
     { path: '/', label: 'Home' },
     { path: '/Login', label: 'Login' },
     { path: '/dashboard', label: 'Dashboard' },
+    { path: '/profile',  label: 'Profile'},
 ];
 
 const Navbar = () => {

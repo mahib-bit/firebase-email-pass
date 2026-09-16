@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification,signInWithEmailAndPassword,signOut} from 'firebase/auth';
+import React, { useContext, useState } from 'react';
+import { createUserWithEmailAndPassword, sendEmailVerification,signInWithEmailAndPassword,signOut} from 'firebase/auth';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { auth } from '../../Firebase/firebase.innit';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isRegister, setIsRegister] = useState(false);
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        });
-        return () => unsubscribe();
-    }, []);
+    const { user } = useContext(AuthContext);
 
     const handleRegister = (e) => {
         e.preventDefault();
