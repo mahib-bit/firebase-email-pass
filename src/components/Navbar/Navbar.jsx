@@ -10,7 +10,6 @@ const NAV_ITEMS = [
 const Navbar = () => {
     return (
         <header className="fixed top-5 inset-x-0 z-50 flex justify-center px-4">
-            {/* Liquid Glass Navigation Container */}
             <nav className="flex items-center gap-1.5 p-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
                 {NAV_ITEMS.map((item) => (
                     <NavLink
@@ -23,7 +22,6 @@ const Navbar = () => {
                             }`
                         }
                     >
-                        {/* Liquid Sheen Animation on Hover */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none" />
 
                         <span className="relative z-10 tracking-wide">{item.label}</span>

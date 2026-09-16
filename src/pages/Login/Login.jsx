@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-    sendEmailVerification,
-    signInWithEmailAndPassword,
-    signOut
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification,signInWithEmailAndPassword,signOut} from 'firebase/auth';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { auth } from '../../Firebase/firebase.innit';
 
 const Login = () => {
@@ -14,7 +10,6 @@ const Login = () => {
     const [isRegister, setIsRegister] = useState(false);
     const [user, setUser] = useState(null);
 
-    // Monitor Auth state
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -27,13 +22,18 @@ const Login = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 sendEmailVerification(result.user);
-                alert('Verification email sent!');
+                toast.success('Verification email sent! Check your inbox.');
             })
             .catch(error => {
-                if (error.code === 'auth/email-already-in-use') alert('This email is already registered!');
-                else if (error.code === 'auth/invalid-email') alert('Please enter a valid email!');
-                else if (error.code === 'auth/weak-password') alert('Password must be at least 6 characters!');
-                else alert('Registration failed!');
+                if (error.code === 'auth/email-already-in-use') {
+                    toast.error('This email is already registered!');
+                } else if (error.code === 'auth/invalid-email') {
+                    toast.warn('Please enter a valid email address!');
+                } else if (error.code === 'auth/weak-password') {
+                    toast.warn('Password must be at least 6 characters!');
+                } else {
+                    toast.error('Registration failed. Please try again.');
+                }
             });
     };
 
@@ -41,31 +41,50 @@ const Login = () => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then(result => {
-                console.log(result.user);
+                toast.success('Welcome back! Login successful.');
             })
             .catch(error => {
-                if (error.code === 'auth/invalid-credential') alert('Invalid email or password!');
-                else if (error.code === 'auth/invalid-email') alert('Please enter a valid email!');
-                else alert('Login failed!');
+                if (error.code === 'auth/invalid-credential') {
+                    toast.error('Invalid email or password!');
+                } else if (error.code === 'auth/invalid-email') {
+                    toast.warn('Please enter a valid email address!');
+                } else {
+                    toast.error('Login failed. Please check your credentials.');
+                }
             });
     };
 
     const handleLogout = () => {
         signOut(auth)
-            .then(() => console.log('User logged out'))
-            .catch(error => console.log(error));
+            .then(() => {
+                toast.info('Logged out successfully.');
+            })
+            .catch(() => {
+                toast.error('Logout failed.');
+            });
     };
 
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4 sm:p-6 lg:p-8">
-            {/* Background Glow Accents */}
+            
+            <ToastContainer
+                position="top-right"
+                autoClose={3500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+
             <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
             <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Main Glass Card */}
             <div className="relative z-10 w-full max-w-md p-8 sm:p-10 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] text-white">
 
-                {/* User Logged In State */}
                 {user ? (
                     <div className="text-center space-y-6">
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 border border-white/20 shadow-inner">
@@ -78,7 +97,6 @@ const Login = () => {
                             <p className="text-sm text-slate-300 mt-1 truncate">{user.email}</p>
                         </div>
 
-                        {/* Liquid Glass Logout Button */}
                         <button
                             onClick={handleLogout}
                             className="group relative w-full py-3.5 px-6 rounded-2xl font-medium text-white transition-all duration-300 overflow-hidden bg-gradient-to-b from-white/25 to-white/5 border border-white/30 backdrop-blur-md shadow-[0_8px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_25px_rgba(239,68,68,0.3)] hover:border-red-400/50 hover:from-red-500/20 hover:to-red-600/10 active:scale-95"
@@ -88,7 +106,6 @@ const Login = () => {
                         </button>
                     </div>
                 ) : (
-                    /* Authentication Form */
                     <div>
                         <div className="text-center mb-8">
                             <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
@@ -124,12 +141,10 @@ const Login = () => {
                                 />
                             </div>
 
-                            {/* Primary Liquid Glass Submit Button */}
                             <button
                                 type="submit"
                                 className="group relative w-full mt-2 py-3.5 px-6 rounded-2xl font-semibold text-white transition-all duration-300 overflow-hidden bg-gradient-to-b from-white/30 via-white/10 to-transparent border border-white/40 backdrop-blur-lg shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(168,85,247,0.4)] hover:border-white/60 hover:from-white/40 hover:via-white/20 active:scale-[0.98]"
                             >
-                                {/* Liquid Sheen Animation */}
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
                                 <span className="relative z-10 tracking-wide">
                                     {isRegister ? 'Register' : 'Sign In'}
@@ -137,7 +152,6 @@ const Login = () => {
                             </button>
                         </form>
 
-                        {/* Toggle Mode */}
                         <div className="mt-8 text-center pt-6 border-t border-white/10">
                             <p className="text-xs text-slate-300">
                                 {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}
