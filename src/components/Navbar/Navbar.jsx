@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router';
-
-const NAV_ITEMS = [
-    { path: '/', label: 'Home' },
-    { path: '/Login', label: 'Login' },
-    { path: '/dashboard', label: 'Dashboard' },
-    { path: '/profile',  label: 'Profile'},
-];
+import { AuthContext } from '../../context/AuthContext/AuthContext';
 
 const Navbar = () => {
+
+    const { user } = useContext(AuthContext)
+
+    const NAV_ITEMS = [
+        { path: '/', label: 'Home' },
+        { path: '/dashboard', label: 'Dashboard' },
+        { path: '/profile', label: 'Profile' },
+        { path: '/Login', label: user ? 'Logout' : 'Login' },
+    ];
+
     return (
         <header className="fixed top-5 inset-x-0 z-50 flex justify-center px-4">
             <nav className="flex items-center gap-1.5 p-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
