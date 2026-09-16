@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { createUserWithEmailAndPassword, sendEmailVerification,signInWithEmailAndPassword,signOut} from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { auth } from '../../Firebase/firebase.innit';
@@ -48,6 +48,14 @@ const Login = () => {
             });
     };
 
+    const handleResendVerification = () => {
+        if (auth.currentUser) {
+            sendEmailVerification(auth.currentUser)
+                .then(() => toast.success('Verification email Sent!'))
+                .catch(() => toast.error('Failed to send verification email.'));
+        }
+    }
+
     const handleLogout = () => {
         signOut(auth)
             .then(() => {
@@ -60,7 +68,7 @@ const Login = () => {
 
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4 sm:p-6 lg:p-8">
-            
+
             <ToastContainer
                 position="top-right"
                 autoClose={3500}
@@ -90,7 +98,15 @@ const Login = () => {
                             <h2 className="text-2xl font-bold tracking-wide">Welcome Back!</h2>
                             <p className="text-sm text-slate-300 mt-1 truncate">{user.email}</p>
                         </div>
-
+                        
+                        {!user.emailVerified && (
+                            <div>
+                                <p className="text-xs text-slate-300">Did not receive an email?
+                                    <button onClick={handleResendVerification} className="font-semibold text-indigo-300 hover:text-white underline underline-offset-4 transition-colors ml-1">
+                                        Resend
+                                    </button> </p>
+                            </div>
+                        )}
                         <button
                             onClick={handleLogout}
                             className="group relative w-full py-3.5 px-6 rounded-2xl font-medium text-white transition-all duration-300 overflow-hidden bg-gradient-to-b from-white/25 to-white/5 border border-white/30 backdrop-blur-md shadow-[0_8px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_25px_rgba(239,68,68,0.3)] hover:border-red-400/50 hover:from-red-500/20 hover:to-red-600/10 active:scale-95"
@@ -99,6 +115,7 @@ const Login = () => {
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                         </button>
                     </div>
+
                 ) : (
                     <div>
                         <div className="text-center mb-8">
