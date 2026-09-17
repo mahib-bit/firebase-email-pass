@@ -59,10 +59,18 @@ const Discover = () => {
       drawHeight = height;
     }
 
-    // 15% zoom factor to crop top/bottom blank areas
-    const ZOOM_FACTOR = 1.15;
-    drawWidth *= ZOOM_FACTOR;
-    drawHeight *= ZOOM_FACTOR;
+    // Dynamic responsive zoom based on device screen width and aspect ratio
+    let zoomFactor = 1.12; // Baseline zoom for desktop
+    if (width < 640) {
+      zoomFactor = 1.35; // Mobile portrait requires higher zoom to fill height without blank borders
+    } else if (width < 1024) {
+      zoomFactor = 1.22; // Tablet / medium viewports
+    } else if (canvasRatio < 1.3) {
+      zoomFactor = 1.25; // Square / taller desktop monitors
+    }
+
+    drawWidth *= zoomFactor;
+    drawHeight *= zoomFactor;
 
     const offsetX = (width - drawWidth) / 2;
     const offsetY = (height - drawHeight) / 2;
