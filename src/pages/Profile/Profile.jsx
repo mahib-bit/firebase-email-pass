@@ -140,7 +140,7 @@ const Profile = () => {
                   initial
                 )}
               </div>
-              <div className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-fuchsia-600 border-2 border-slate-900 shadow-md flex items-center justify-center" title="Active Session">
+              <div className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-purple-400 border-2 border-slate-900 shadow-md flex items-center justify-center" title="Active Session">
                 <CheckCircle2 className="w-4 h-4 text-slate-900" />
               </div>
             </div>
