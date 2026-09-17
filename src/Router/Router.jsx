@@ -8,6 +8,7 @@ import Root from '../Root/Root';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import Profile from '../pages/Profile/Profile';
 import RedirectRoute from '../RedirectRoute/RedirectRoute';
+import Discover from '../pages/Discover/Discover';
 
 export const router = createBrowserRouter([
 
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: Home,
+            },
+            {
+                path: 'discover',
+                Component: Discover,
             },
             {
                 path: 'Login',
