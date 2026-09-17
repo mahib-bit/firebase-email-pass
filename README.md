@@ -1,16 +1,105 @@
-# React + Vite
+# Porphyra
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A React + Vite web app with Firebase authentication, protected routing, and a scroll-driven cinematic image-sequence experience on the Discover page.
 
-Currently, two official plugins are available:
+**Live:** [porphyra.netlify.app](https://porphyra.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- 🔐 **Firebase Authentication** — sign in/out flow with protected and redirect-aware routing
+- 🧭 **Route Guarding** — `PrivateRoute` and `RedirectRoute` keep authenticated and public pages properly separated
+- 🖼️ **Scroll-Scrubbed Image Sequence** — the Discover page renders an 84-frame sequence as a fixed background, advancing frame-by-frame as the user scrolls
+- 📊 **Dashboard & Profile** — authenticated user views for account and content management
+- 🎨 **Tailwind CSS + DaisyUI** — utility-first styling with a consistent component design system
+- 🧩 **Lucide Icons** — lightweight, consistent iconography throughout the UI
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the Oxlint configuration
+| Layer            | Technology                     |
+| ---------------- | ------------------------------- |
+| Framework        | React (Vite)                    |
+| Routing          | React Router                    |
+| Auth & Backend   | Firebase                        |
+| Styling          | Tailwind CSS, DaisyUI           |
+| Icons            | Lucide                          |
+| Linting          | Oxlint                          |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Project Structure
+
+```
+├── public
+│   ├── favicon.svg
+│   └── icons.svg
+├── src
+│   ├── assets
+│   ├── cas-img-seq/          # 84-frame image sequence for the Discover page
+│   ├── components
+│   │   ├── Navbar/
+│   │   └── ui/
+│   ├── Context
+│   │   └── AuthContext/      # Firebase auth state provider
+│   ├── Firebase
+│   │   └── firebase.innit.js
+│   ├── pages
+│   │   ├── Dashboard/
+│   │   ├── Discover/
+│   │   ├── ErrorPage/
+│   │   ├── Home/
+│   │   ├── Login/
+│   │   └── Profile/
+│   ├── PrivateRoute/         # Guards authenticated-only routes
+│   ├── RedirectRoute/        # Redirects authenticated users away from public routes
+│   ├── Root/
+│   ├── Router/
+│   ├── App.jsx
+│   └── main.jsx
+├── index.html
+├── package.json
+└── vite.config.js
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (LTS recommended)
+- A Firebase project with Authentication enabled
+
+### Installation
+
+```bash
+git clone https://github.com/mahib-bit/porphyra.git
+cd porphyra
+npm install
+```
+
+### Environment Setup
+
+Configure your Firebase credentials in `src/Firebase/firebase.innit.js` (or via environment variables, depending on your setup).
+
+### Run Locally
+
+```bash
+npm run dev
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+## Pages
+
+| Route        | Description                                      | Access     |
+| ------------ | ------------------------------------------------- | ---------- |
+| `/`          | Landing/home page                                  | Public     |
+| `/login`     | Firebase authentication                            | Public     |
+| `/discover`  | Scroll-driven image sequence experience            | —          |
+| `/dashboard` | Authenticated user dashboard                       | Private    |
+| `/profile`   | User profile management                            | Private    |
+| `*`          | 404 error page                                     | —          |
+
+## License
+
+This project currently has no license specified.
