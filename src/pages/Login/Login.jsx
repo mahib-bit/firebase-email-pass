@@ -95,10 +95,10 @@ const Login = () => {
                             </svg>
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold tracking-wide">Welcome Back!</h2>
+                            <h2 className="text-2xl font-bold tracking-wide">Welcome !</h2>
                             <p className="text-sm text-slate-300 mt-1 truncate">{user.email}</p>
                         </div>
-                        
+
                         {!user.emailVerified && (
                             <div>
                                 <p className="text-xs text-slate-300">Did not receive an email?

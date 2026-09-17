@@ -13,6 +13,7 @@
     "@paper-design/shaders-react": "^0.0.80",
     "@tailwindcss/vite": "^4.3.3",
     "firebase": "^12.19.0",
+    "lucide": "^1.46.0",
     "lucide-react": "^1.46.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
